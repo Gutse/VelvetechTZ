@@ -19,6 +19,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VelvetechTZ.Domain\VelvetechTZ.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
