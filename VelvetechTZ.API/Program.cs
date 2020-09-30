@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace VelvetechTZAPI
+namespace VelvetechTZ.API
 {
     public static class Program
     {
