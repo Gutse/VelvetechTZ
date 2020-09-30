@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30320.27
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VelvetechTZAPI", "VelvetechTZAPI.csproj", "{B9720AA8-52B9-4BD2-9A17-1C3B575A1D04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VelvetechTZ.API", "VelvetechTZ.API.csproj", "{69470628-ED1A-405C-9935-E553A60611D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B9720AA8-52B9-4BD2-9A17-1C3B575A1D04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B9720AA8-52B9-4BD2-9A17-1C3B575A1D04}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B9720AA8-52B9-4BD2-9A17-1C3B575A1D04}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B9720AA8-52B9-4BD2-9A17-1C3B575A1D04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69470628-ED1A-405C-9935-E553A60611D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69470628-ED1A-405C-9935-E553A60611D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69470628-ED1A-405C-9935-E553A60611D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69470628-ED1A-405C-9935-E553A60611D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
