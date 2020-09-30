@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using VelvetechTZ.Core.Student;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -9,18 +11,19 @@ namespace VelvetechTZ.API.Controllers
     [ApiController]
     public class StudentController : ControllerBase
     {
-        // GET: api/<StudentController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly IStudentService studentService;
+
+        public StudentController(IStudentService studentService)
         {
-            return new string[] { "value1", "value2" };
+            this.studentService = studentService;
         }
 
-        // GET api/<StudentController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        // вообще стоит создать на все методы контроллеров классы вида GetFilteredRequest, UpdateStudentRequest +  классы Response итп. но в тестовом задании не буду тратить время
+        [HttpGet]
+        public async Task<IActionResult> GetFiltered(StudentDto filter)
         {
-            return "value";
+            var students = await studentService.GetFiltered(filter);
+            return Ok(students);
         }
 
         // POST api/<StudentController>
