@@ -35,10 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\VelvetechTZ.Domain\VelvetechTZ.Domain.csproj" />
   </ItemGroup>
 
