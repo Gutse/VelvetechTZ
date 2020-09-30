@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using Autofac;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,17 +9,21 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using VelvetechTZ.Core.Core;
 
 namespace VelvetechTZ.API
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        private readonly IWebHostEnvironment currentEnvironment;
+        private readonly IConfiguration configuration;
+        public ILifetimeScope? AutofacContainer { get; private set; }
 
-        public IConfiguration Configuration { get; }
+        public Startup(IConfiguration configuration, IWebHostEnvironment currentEnvironment)
+        {
+            this.currentEnvironment = currentEnvironment;
+            this.configuration = configuration;
+        }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -49,16 +54,23 @@ namespace VelvetechTZ.API
                     options.SaveToken = true;
                 });
 
-            services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("default", builder => builder.AllowAnyOrigin() // just for this TZ allow any origins
+                    .AllowCredentials()
+                    .AllowAnyHeader()
+                    .WithMethods("GET", "POST", "PUT", "OPTIONS"));
+            });
+        }
+
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            builder.ConfigureCoreContainer(currentEnvironment.EnvironmentName);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseCors(x => x
-                .WithOrigins("https://localhost:3000")
-                .AllowCredentials()
-                .AllowAnyMethod()
-                .AllowAnyHeader());
+            app.UseCors("default");
 
             if (env.IsDevelopment())
             {
