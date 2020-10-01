@@ -57,7 +57,6 @@ namespace VelvetechTZ.API
             services.AddCors(options =>
             {
                 options.AddPolicy("default", builder => builder.AllowAnyOrigin() // just for this TZ allow any origins
-                    .AllowCredentials()
                     .AllowAnyHeader()
                     .WithMethods("GET", "POST", "PUT", "OPTIONS"));
             });
