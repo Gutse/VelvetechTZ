@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VelvetechTZ.Core.Group;
 
@@ -6,6 +7,7 @@ namespace VelvetechTZ.API.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [AllowAnonymous] //TODO just for testing, dont forget remove 
     public class GroupController : ControllerBase
     {
         private readonly IGroupService groupService;
