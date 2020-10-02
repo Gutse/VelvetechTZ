@@ -1,6 +1,13 @@
 using System;
 using System.Threading.Tasks;
-using FluentValidation;
+using VelvetechTZ.Core.Password;
+using VelvetechTZ.Core.User;
+using VelvetechTZ.Core.UserIdentity;
+using VelvetechTZ.Core.UserToken;
+using VelvetechTZ.Domain.Errors;
+using VelvetechTZ.Domain.User;
+using VelvetechTZ.Domain.UserIdentity;
+using VelvetechTZ.Domain.UserToken;
 
 namespace VelvetechTZ.Core.Authentication
 {
@@ -11,34 +18,19 @@ namespace VelvetechTZ.Core.Authentication
         private readonly IUserService userService;
         private readonly IUserTokenService userTokenService;
         private readonly IPasswordService passwordService;
-        private readonly PasswordValidator passwordValidator;
-        private readonly IUserRepository userRepository;
-        private readonly UserContractValidator userContractValidator;
-        private readonly IDbOperation dbOperation;
-        private readonly IUserIdentityRepository userIdentityRepository;
 
         public AuthenticationService
             (IJwtTokenIssuer jwtTokenIssuer,
             IUserIdentityService userIdentityService,
             IUserService userService,
             IUserTokenService userTokenService,
-            IPasswordService passwordService,
-            PasswordValidator passwordValidator,
-            IUserRepository userRepository,
-            UserContractValidator userContractValidator,
-            IDbOperation dbOperation,
-            IUserIdentityRepository userIdentityRepository)
+            IPasswordService passwordService)
         {
             this.jwtTokenIssuer = jwtTokenIssuer;
             this.userIdentityService = userIdentityService;
             this.userService = userService;
             this.userTokenService = userTokenService;
             this.passwordService = passwordService;
-            this.passwordValidator = passwordValidator;
-            this.userRepository = userRepository;
-            this.userContractValidator = userContractValidator;
-            this.dbOperation = dbOperation;
-            this.userIdentityRepository = userIdentityRepository;
         }
 
         public async Task<(string Token, DateTime ExpirationTime)> SignIn(long userIdentityId, string password)
@@ -50,9 +42,9 @@ namespace VelvetechTZ.Core.Authentication
             if (!passwordService.VerifyHashedPassword(userIdentity.Identity,userIdentity.Salt, password))
                 throw new ServiceException(AppErrors.BadLoginError);
 
-            var (token, expirationTime) = jwtTokenIssuer.IssueToken(userIdentity.UserIdentityId, userIdentity.UserId);
+            var (token, expirationTime) = jwtTokenIssuer.IssueToken(userIdentity.Id, userIdentity.UserId);
 
-            await userTokenService.Create(new UserTokenContract { Expiration = expirationTime, Token = token, UserIdentityId = userIdentity.UserIdentityId });
+            await userTokenService.Create(new UserTokenModel { Expiration = expirationTime, Token = token, UserIdentityId = userIdentity.Id });
 
             return (token, expirationTime);
         }
@@ -63,33 +55,34 @@ namespace VelvetechTZ.Core.Authentication
             if (user != null)
                 throw new ServiceException(AppErrors.UserAlreadyExists);
 
-            await passwordValidator.ValidateAndThrowAsync(password);
-
-            var newUserContract = new UserContract { Email = email, Name = name };
-            await userContractValidator.ValidateAndThrowAsync(newUserContract);
+            var newUserContract = new UserModel() { Email = email, Name = name };
 
             var (hash, salt) = passwordService.GetNewPassword(password);
 
-            return await dbOperation.Transaction(async (t) =>
+            var newUserId = await userService.Create(newUserContract);
+            var newIdentityId = await userIdentityService.Create(new UserIdentityModel
             {
-                var userId = await userRepository.Insert(newUserContract.Name, newUserContract.Email, t);
-
-                return await userIdentityRepository.Insert(userId, true, 0,
-                    hash, salt, t);
+                UserId = newUserId,
+                Salt = salt,
+                Identity = hash
             });
+
+            return newIdentityId;
         }
 
-        public async Task SignOut(string token)
+        public Task SignOut(string token)
         {
-            await userTokenService.DeleteByToken(token);
+            //await userTokenService.DeleteByToken(token);
+            throw new NotImplementedException();
         }
 
-        public async Task SignOutAll(string token)
+        public Task SignOutAll(string token)
         {
             if (token == null)
-                throw new ServiceException(AppErrors.NullableRequestError);
+                throw new ServiceException(AppErrors.EntityDoesNotExists);
 
-            await userTokenService.DeleteAllForUser(token);
+            //await userTokenService.DeleteAllForUser(token);
+            throw new NotImplementedException();
         }
     }
 }

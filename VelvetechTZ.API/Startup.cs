@@ -1,14 +1,20 @@
 using System;
 using System.IO;
 using System.Reflection;
+using System.Text;
 using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using VelvetechTZ.Core.Authentication;
 using VelvetechTZ.Core.Core;
 
 namespace VelvetechTZ.API
@@ -27,7 +33,27 @@ namespace VelvetechTZ.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            var defaultPolicy = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .AddAuthenticationSchemes("default")
+                .Build();
+
+            services.AddAuthorization(options =>
+            {
+                options.DefaultPolicy = defaultPolicy;
+
+                options.AddPolicy("feature", new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .AddAuthenticationSchemes("feature")
+                    .Build());
+            });
+
+            services.AddControllers(options =>
+            {
+                options.Filters.Add(new AuthorizeFilter(defaultPolicy));
+                //options.Filters.Add(new PerfomanceFilter(Log.Logger));
+            });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
@@ -42,16 +68,22 @@ namespace VelvetechTZ.API
                 c.IncludeXmlComments(xmlPath);
             });
 
-            services.AddAuthentication(options =>
+            services.AddAuthentication()
+                .AddJwtBearer("default", options =>
                 {
-                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
-                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
-                {
-                    options.RequireHttpsMetadata = true;
                     options.SaveToken = true;
+                    options.SecurityTokenValidators.Clear();
+                    options.SecurityTokenValidators.Add(new CustomTokenValidator(AutofacContainer));
+                    options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidAudience = JwtTokenIssuer.DefaultIssuerAudience,
+                        ValidIssuer = JwtTokenIssuer.DefaultIssuerAudience,
+                        IssuerSigningKey =
+                            new SymmetricSecurityKey(Encoding.UTF8.GetBytes("conf.JwtSecretKey"))
+                    };
                 });
 
             services.AddCors(options =>
@@ -85,8 +117,12 @@ namespace VelvetechTZ.API
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints => endpoints.MapControllers());
+            this.AutofacContainer = app.ApplicationServices.GetAutofacRoot();
+            var authService = AutofacContainer?.Resolve<IAuthenticationService>();
+            authService?.SignUp("tzuser", "key.dach@gmail.com", "VeryH@rdP@ssw0rd155");
         }
     }
 }

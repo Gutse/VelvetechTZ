@@ -1,4 +1,5 @@
 using Autofac;
+using VelvetechTZ.DAL.UserToken;
 
 namespace VelvetechTZ.Core.UserToken
 {
@@ -6,8 +7,8 @@ namespace VelvetechTZ.Core.UserToken
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<UserTokenService>().As<IUserTokenService>();
-            builder.Register<IUserTokenRepository>(c => new UserTokenRepository(c.Resolve<IDbOperation>())).As<IUserTokenRepository>();
+            builder.RegisterType<UserTokenService>().As<IUserTokenService>().SingleInstance();
+            builder.RegisterType<UserTokenRepository>().As<IUserTokenRepository>().SingleInstance();
         }
     }
 }

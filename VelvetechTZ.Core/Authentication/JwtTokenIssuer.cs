@@ -1,39 +1,19 @@
 using System;
 using System.Globalization;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.IdentityModel.Tokens;
 
 namespace VelvetechTZ.Core.Authentication
 {
     public class JwtTokenIssuer : IJwtTokenIssuer
     {
-        public const string DefaultIssuerAudience = "https://pm3.platfoza.com";
-
-        private readonly IAppConfigurationReader appConfigurationReader;
-
-        public JwtTokenIssuer(IAppConfigurationReader appConfigurationReader)
-        {
-            this.appConfigurationReader = appConfigurationReader;
-        }
-
-        public (string Token, DateTime ExpirationTime) IssueStartToken(long campaignId, long userId)
-        {
-            var conf = appConfigurationReader.Get();
-
-            if (conf.JwtStartSecretKey == null)
-                throw new ServiceException(AppErrors.ArgumentError);
-
-            return IssueToken(campaignId, userId, conf.JwtStartSecretKey, conf.JwtStartTokenExpiration);
-        }
+        public const string DefaultIssuerAudience = "https://velvetech.test.com";
 
         public (string Token, DateTime ExpirationTime) IssueToken(long userIdentityId, long userId)
         {
-            var conf = appConfigurationReader.Get();
-
-            if (conf.JwtSecretKey == null)
-                throw new ServiceException(AppErrors.ArgumentError);
-
-            return IssueToken(userIdentityId, userId, conf.JwtSecretKey, conf.JwtTokenExpiration);
+            return IssueToken(userIdentityId, userId, "conf.JwtSecretKey", TimeSpan.FromDays(365));
         }
 
         private (string Token, DateTime ExpirationTime) IssueToken(long userIdentityId, long userId, string secretKey, TimeSpan expiration)

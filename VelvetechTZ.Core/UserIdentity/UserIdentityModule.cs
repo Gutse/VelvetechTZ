@@ -6,10 +6,7 @@ namespace VelvetechTZ.Core.UserIdentity
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<UserIdentityService>().As<IUserIdentityService>();
-            builder.RegisterType<UserIdentityRepository>().As<IUserIdentityRepository>();
-            builder.Register(_ => new UserIdentityContractValidator());
-            builder.RegisterType<UserIdentityGetForUserRequestValidator>().AsSelf();
+            builder.RegisterType<UserIdentityService>().As<IUserIdentityService>().SingleInstance();
         }
     }
 }

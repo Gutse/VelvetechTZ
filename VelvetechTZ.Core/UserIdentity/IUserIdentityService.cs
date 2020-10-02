@@ -1,16 +1,12 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using VelvetechTZ.Domain.UserIdentity;
 
 namespace VelvetechTZ.Core.UserIdentity
 {
     public interface IUserIdentityService
     {
-        Task<List<UserIdentityContract>> GetAll(PageContract page);
-        Task<UserIdentityContract> Get(long userIdentityId);
-        Task<List<UserIdentityContract>> GetForUser(string email);
-        Task<UserIdentityContract> GetDefault(long userId);
-        Task<long> Create(UserIdentityContract contract);
-        Task<long> Update(UserIdentityContract contract);
-        Task<long> Delete(long userIdentityId);
+        Task<UserIdentityModel> GetDefault(long userId);
+        Task<UserIdentityModel> Get(long userIdentityId);
+        Task<long> Create(UserIdentityModel contract);
     }
 }

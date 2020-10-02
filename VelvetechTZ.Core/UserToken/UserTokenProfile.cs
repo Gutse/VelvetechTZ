@@ -1,4 +1,5 @@
 using AutoMapper;
+using VelvetechTZ.Domain.UserToken;
 
 namespace VelvetechTZ.Core.UserToken
 {
@@ -6,7 +7,7 @@ namespace VelvetechTZ.Core.UserToken
     {
         public UserTokenProfile()
         {
-            CreateMap<UserTokenContract, UserTokenModel>().ReverseMap();
+            CreateMap<UserTokenModel, UserTokenModel>().ReverseMap();
         }
     }
 }

@@ -7,7 +7,5 @@ namespace VelvetechTZ.Core.Authentication
     {
         Task<(string Token, DateTime ExpirationTime)> SignIn(long userIdentityId, string password);
         Task<long> SignUp(string name, string email, string password);
-        Task SignOut(string token);
-        Task SignOutAll(string token);
     }
 }
