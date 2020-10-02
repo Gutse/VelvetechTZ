@@ -6,6 +6,7 @@ using VelvetechTZ.Core.Student;
 using VelvetechTZ.Core.User;
 using VelvetechTZ.Core.UserIdentity;
 using VelvetechTZ.Core.UserToken;
+using VelvetechTZ.DAL.Repository;
 
 namespace VelvetechTZ.Core.Core
 {
@@ -21,6 +22,9 @@ namespace VelvetechTZ.Core.Core
             builder.RegisterModule(new UserTokenModule());
             builder.RegisterModule(new PasswordModule());
             builder.RegisterModule(new AuthenticationModule());
+            builder.RegisterGeneric(typeof(Repository<>))
+                .As(typeof(IRepository<>))
+                .InstancePerLifetimeScope();
         }
     }
 }
