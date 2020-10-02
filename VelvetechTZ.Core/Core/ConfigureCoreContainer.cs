@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Microsoft.EntityFrameworkCore;
 using VelvetechTZ.Core.Authentication;
 using VelvetechTZ.Core.Group;
 using VelvetechTZ.Core.Password;
@@ -22,6 +23,9 @@ namespace VelvetechTZ.Core.Core
             builder.RegisterModule(new UserTokenModule());
             builder.RegisterModule(new PasswordModule());
             builder.RegisterModule(new AuthenticationModule());
+
+            builder.RegisterType<DockerDbContext>().As<DbContext>();
+
             builder.RegisterGeneric(typeof(Repository<>))
                 .As(typeof(IRepository<>))
                 .InstancePerLifetimeScope();
