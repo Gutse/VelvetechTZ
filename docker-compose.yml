@@ -1,0 +1,9 @@
+version: '2.1'
+services:
+  sql:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Qwerty@18
+    ports:
+      - "5434:1433"
