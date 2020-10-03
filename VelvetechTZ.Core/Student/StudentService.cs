@@ -41,9 +41,31 @@ namespace VelvetechTZ.Core.Student
             await studentRepository.DeleteById(id);
         }
 
-        public Task<List<StudentContract>> GetFiltered(StudentContract? filter)
+        public async Task<List<StudentContract>> GetFiltered(StudentContract? filter)
         {
-            throw new System.NotImplementedException();
+            var models = await studentRepository.GetFiltered(model =>
+            {
+                var result = true;
+
+                if (!string.IsNullOrWhiteSpace(filter?.Name))
+                    result = result && (model.Name?.Contains(filter.Name) ?? false);
+
+                if (!string.IsNullOrWhiteSpace(filter?.Family))
+                    result = result && (model.Name?.Contains(filter.Family) ?? false);
+
+                if (!string.IsNullOrWhiteSpace(filter?.SureName))
+                    result = result && (model.Name?.Contains(filter.SureName) ?? false);
+
+                if (filter?.Gender != null)
+                    result = result && model.Gender == (int)filter.Gender;
+
+                if (!string.IsNullOrWhiteSpace(filter?.Family))
+                    result = result && (model.Name?.Contains(filter.Family) ?? false);
+
+                return result;
+            });
+
+            return mapper.Map<List<StudentContract>>(models);
         }
     }
 }

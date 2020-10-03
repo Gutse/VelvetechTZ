@@ -6,7 +6,7 @@ namespace VelvetechTZ.DAL.Models.Student
 {
     public class StudentModel: BaseModel.BaseModel
     {
-        public virtual int Gender { get; set; }
+        public virtual int? Gender { get; set; }
 
         [Required]
         [MinLength(1)]

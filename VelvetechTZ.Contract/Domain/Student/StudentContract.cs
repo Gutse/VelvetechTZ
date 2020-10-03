@@ -6,7 +6,7 @@ namespace VelvetechTZ.Contract.Domain.Student
     public class StudentContract
     {
         public virtual long Id { get; set; }
-        public virtual Gender Gender { get; set; }
+        public virtual Gender? Gender { get; set; }
         public virtual string? Family { get; set; }
         public virtual string? Name { get; set; }
         public virtual string? SureName { get; set; }
