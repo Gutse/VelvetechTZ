@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -47,9 +48,18 @@ namespace VelvetechTZ.DAL.Repository
         {
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
+
             entities.Update(model);
             context.SaveChanges();
             return Task.CompletedTask;
+        }
+
+        public async Task<List<T>> GetFiltered(Func<T, bool> predicate)
+        {
+            // i know that this pull all records to api, but this is just TZ
+            var list = await context.Set<T>().ToListAsync();
+
+            return list.Where(m => predicate(m)).ToList();
         }
     }
 }

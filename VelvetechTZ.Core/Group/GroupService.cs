@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using VelvetechTZ.Contract.Domain.Group;
 using VelvetechTZ.DAL.Models.Group;
 using VelvetechTZ.DAL.Repository;
@@ -51,9 +53,17 @@ namespace VelvetechTZ.Core.Group
             throw new System.NotImplementedException();
         }
 
-        public Task<List<GroupContract>> GetFiltered(GroupContract? filter)
+        public async Task<List<GroupContract>> GetFiltered(GroupContract? filter)
         {
-            throw new System.NotImplementedException();
+            var models = await groupRepository.GetFiltered(model =>
+            {
+                if (!string.IsNullOrWhiteSpace(filter?.Name))
+                    return model.Name?.Contains(filter.Name) ?? false;
+
+                return true;
+            });
+
+            return mapper.Map<List<GroupContract>>(models);
         }
     }
 }
