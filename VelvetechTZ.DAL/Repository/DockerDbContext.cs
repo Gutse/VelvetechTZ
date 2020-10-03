@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using VelvetechTZ.Domain.EFRelated;
-using VelvetechTZ.Domain.Group;
-using VelvetechTZ.Domain.Student;
+using VelvetechTZ.DAL.Models.Group;
+using VelvetechTZ.DAL.Models.Student;
+using VelvetechTZ.DAL.Models.StudentGroupRelation;
 
 namespace VelvetechTZ.DAL.Repository
 {

@@ -1,4 +1,4 @@
-﻿namespace VelvetechTZ.Domain.Enums
+﻿namespace VelvetechTZ.Contract.Enums
 {
     public enum Gender
     {

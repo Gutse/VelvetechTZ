@@ -1,6 +1,6 @@
 using System;
 
-namespace VelvetechTZ.Domain.UserToken
+namespace VelvetechTZ.DAL.Models.UserToken
 {
     public class UserTokenModel: BaseModel.BaseModel
     {

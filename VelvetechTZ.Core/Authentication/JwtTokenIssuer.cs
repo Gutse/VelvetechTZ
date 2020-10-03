@@ -11,16 +11,15 @@ namespace VelvetechTZ.Core.Authentication
     {
         public const string DefaultIssuerAudience = "https://velvetech.test.com";
 
-        public (string Token, DateTime ExpirationTime) IssueToken(long userIdentityId, long userId)
+        public (string Token, DateTime ExpirationTime) IssueToken(long userId)
         {
-            return IssueToken(userIdentityId, userId, "conf.JwtSecretKey", TimeSpan.FromDays(365));
+            return IssueToken(userId, "env.JwtSecretKey", TimeSpan.FromDays(365));
         }
 
-        private (string Token, DateTime ExpirationTime) IssueToken(long userIdentityId, long userId, string secretKey, TimeSpan expiration)
+        private (string Token, DateTime ExpirationTime) IssueToken(long userId, string secretKey, TimeSpan expiration)
         {
             var authClaims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Jti, userIdentityId.ToString(CultureInfo.InvariantCulture)),
                 new Claim("user_id", userId.ToString(CultureInfo.InvariantCulture))
             };
 

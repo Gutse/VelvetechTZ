@@ -26,8 +26,8 @@
   </ItemGroup> 
 
   <ItemGroup>
+    <ProjectReference Include="..\VelvetechTZ.Contract\VelvetechTZ.Contract.csproj" />
     <ProjectReference Include="..\VelvetechTZ.DAL\VelvetechTZ.DAL.csproj" />
-    <ProjectReference Include="..\VelvetechTZ.Domain\VelvetechTZ.Domain.csproj" />
   </ItemGroup>
 
 </Project>

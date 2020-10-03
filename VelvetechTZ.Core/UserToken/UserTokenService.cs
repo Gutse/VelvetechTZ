@@ -1,8 +1,7 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using VelvetechTZ.Contract.Errors;
+using VelvetechTZ.DAL.Models.UserToken;
 using VelvetechTZ.DAL.UserToken;
-using VelvetechTZ.Domain.Errors;
-using VelvetechTZ.Domain.UserToken;
 
 namespace VelvetechTZ.Core.UserToken
 {
@@ -28,6 +27,11 @@ namespace VelvetechTZ.Core.UserToken
         public async Task<long> Create(UserTokenModel token)
         {
             return await userTokenRepository.Insert(token.UserIdentityId, token.Token, token.Expiration);
+        }
+
+        public Task DeleteByToken(string token)
+        {
+            return userTokenRepository.Delete(token);
         }
     }
 }

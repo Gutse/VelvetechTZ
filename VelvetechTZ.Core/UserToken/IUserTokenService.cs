@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using VelvetechTZ.Domain.UserToken;
+using VelvetechTZ.DAL.Models.UserToken;
 
 namespace VelvetechTZ.Core.UserToken
 {
@@ -7,5 +7,6 @@ namespace VelvetechTZ.Core.UserToken
     {
         Task<UserTokenModel> GetByToken(string token);
         Task<long> Create(UserTokenModel token);
+        Task DeleteByToken(string token);
     }
 }

@@ -1,6 +1,6 @@
 using System;
 
-namespace VelvetechTZ.Core.Authentication
+namespace VelvetechTZ.Contract.Errors
 {
     public class UndefinedArgumentException : Exception
     {

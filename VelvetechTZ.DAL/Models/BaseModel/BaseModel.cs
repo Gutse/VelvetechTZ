@@ -1,4 +1,4 @@
-﻿namespace VelvetechTZ.Domain.BaseModel
+﻿namespace VelvetechTZ.DAL.Models.BaseModel
 {
     public class BaseModel
     {

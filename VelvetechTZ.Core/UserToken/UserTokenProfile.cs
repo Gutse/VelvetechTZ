@@ -1,5 +1,5 @@
 using AutoMapper;
-using VelvetechTZ.Domain.UserToken;
+using VelvetechTZ.DAL.Models.UserToken;
 
 namespace VelvetechTZ.Core.UserToken
 {

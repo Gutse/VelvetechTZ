@@ -1,4 +1,4 @@
-namespace VelvetechTZ.Domain.Errors
+namespace VelvetechTZ.Contract.Errors
 {
     public struct AppErrors
     {

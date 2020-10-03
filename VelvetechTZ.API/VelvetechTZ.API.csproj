@@ -36,7 +36,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\VelvetechTZ.Core\VelvetechTZ.Core.csproj" />
-    <ProjectReference Include="..\VelvetechTZ.Domain\VelvetechTZ.Domain.csproj" />
   </ItemGroup>
 
 

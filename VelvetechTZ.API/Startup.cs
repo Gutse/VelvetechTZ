@@ -4,7 +4,6 @@ using System.Reflection;
 using System.Text;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -82,7 +81,7 @@ namespace VelvetechTZ.API
                         ValidAudience = JwtTokenIssuer.DefaultIssuerAudience,
                         ValidIssuer = JwtTokenIssuer.DefaultIssuerAudience,
                         IssuerSigningKey =
-                            new SymmetricSecurityKey(Encoding.UTF8.GetBytes("conf.JwtSecretKey"))
+                            new SymmetricSecurityKey(Encoding.UTF8.GetBytes("env.JwtSecretKey"))
                     };
                 });
 

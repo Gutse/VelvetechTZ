@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using VelvetechTZ.Domain.UserToken;
+using VelvetechTZ.DAL.Models.UserToken;
 
 namespace VelvetechTZ.DAL.UserToken
 {
@@ -20,7 +20,7 @@ namespace VelvetechTZ.DAL.UserToken
             throw new ArgumentException("Token not exist", token);
         }
 
-        public Task<long> Insert(long userIdentityId, string? token, DateTime? expiration)
+        public Task<long> Insert(long userId, string? token, DateTime? expiration)
         {
             if (string.IsNullOrWhiteSpace(token))
                 throw new ArgumentException("Token is empty", token);
@@ -28,7 +28,7 @@ namespace VelvetechTZ.DAL.UserToken
             if (tokens.TryGetValue(token ?? string.Empty, out var storedToken))
                 throw new ArgumentException("Token already exist", token);
 
-            var newToken = new UserTokenModel { Expiration = expiration, Token = token, UserIdentityId = userIdentityId, Id = ++lastId };
+            var newToken = new UserTokenModel { Expiration = expiration, Token = token, Id = ++lastId };
 
             tokens.Add(token ?? string.Empty, newToken);
 
@@ -38,9 +38,7 @@ namespace VelvetechTZ.DAL.UserToken
         public Task Delete(string? token)
         {
             if (token == null)
-#pragma warning disable CA2201 // Не порождайте исключения зарезервированных типов
-                throw new NullReferenceException("token is null");
-#pragma warning restore CA2201 // Не порождайте исключения зарезервированных типов
+                throw new ArgumentException("token is null");
 
             if (tokens.ContainsKey(token))
                 tokens.Remove(token);

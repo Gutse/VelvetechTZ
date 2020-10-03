@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VelvetechTZ.API", "Velvetec
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VelvetechTZ.DAL", "VelvetechTZ.DAL\VelvetechTZ.DAL.csproj", "{1B153579-6557-4031-B7EA-5907B285BCCC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VelvetechTZ.Domain", "VelvetechTZ.Domain\VelvetechTZ.Domain.csproj", "{1C82006F-5E04-468A-996F-FDDC5946A4CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VelvetechTZ.Core", "VelvetechTZ.Core\VelvetechTZ.Core.csproj", "{89DCB68A-3678-4FD3-BD10-2F19EA974FF2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VelvetechTZ.Core", "VelvetechTZ.Core\VelvetechTZ.Core.csproj", "{89DCB68A-3678-4FD3-BD10-2F19EA974FF2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VelvetechTZ.Contract", "VelvetechTZ.Contract\VelvetechTZ.Contract.csproj", "{E3515525-6E3D-4ACC-9686-73F2D3F5810F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,14 +25,14 @@ Global
 		{1B153579-6557-4031-B7EA-5907B285BCCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B153579-6557-4031-B7EA-5907B285BCCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B153579-6557-4031-B7EA-5907B285BCCC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1C82006F-5E04-468A-996F-FDDC5946A4CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1C82006F-5E04-468A-996F-FDDC5946A4CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1C82006F-5E04-468A-996F-FDDC5946A4CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1C82006F-5E04-468A-996F-FDDC5946A4CF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{89DCB68A-3678-4FD3-BD10-2F19EA974FF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{89DCB68A-3678-4FD3-BD10-2F19EA974FF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89DCB68A-3678-4FD3-BD10-2F19EA974FF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89DCB68A-3678-4FD3-BD10-2F19EA974FF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3515525-6E3D-4ACC-9686-73F2D3F5810F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3515525-6E3D-4ACC-9686-73F2D3F5810F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3515525-6E3D-4ACC-9686-73F2D3F5810F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3515525-6E3D-4ACC-9686-73F2D3F5810F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

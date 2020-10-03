@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using VelvetechTZ.Domain.User;
+using VelvetechTZ.DAL.Models.User;
 
 namespace VelvetechTZ.Core.User
 {

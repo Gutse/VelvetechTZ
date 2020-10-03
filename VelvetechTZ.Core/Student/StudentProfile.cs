@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using VelvetechTZ.Domain.Student;
+using VelvetechTZ.Contract.Domain.Student;
+using VelvetechTZ.DAL.Models.Student;
 
 namespace VelvetechTZ.Core.Student
 {
@@ -7,7 +8,7 @@ namespace VelvetechTZ.Core.Student
     {
         public StudentProfile()
         {
-            CreateMap<StudentModel, StudentDto>().ReverseMap();
+            CreateMap<StudentModel, StudentContract>().ReverseMap();
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Autofac;
 using Microsoft.IdentityModel.Tokens;
+using VelvetechTZ.Contract.Errors;
 using VelvetechTZ.Core.UserToken;
 
 namespace VelvetechTZ.Core.Authentication

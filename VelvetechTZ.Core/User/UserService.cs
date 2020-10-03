@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using VelvetechTZ.Domain.User;
+using VelvetechTZ.DAL.Models.User;
 
 namespace VelvetechTZ.Core.User
 {
@@ -13,7 +13,7 @@ namespace VelvetechTZ.Core.User
 
         public Task<UserModel> Get(long userId)
         {
-            var user = users.FirstOrDefault(u => u.Value.UserId == userId);
+            var user = users.FirstOrDefault(u => u.Value.Id == userId);
             return Task.FromResult(user.Value);
         }
 

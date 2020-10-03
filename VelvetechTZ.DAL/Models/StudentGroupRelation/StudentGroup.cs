@@ -1,7 +1,7 @@
-﻿using VelvetechTZ.Domain.Group;
-using VelvetechTZ.Domain.Student;
+﻿using VelvetechTZ.DAL.Models.Group;
+using VelvetechTZ.DAL.Models.Student;
 
-namespace VelvetechTZ.Domain.EFRelated
+namespace VelvetechTZ.DAL.Models.StudentGroupRelation
 {
     public class StudentGroup
     {

@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using VelvetechTZ.Core.Group;
+using VelvetechTZ.Contract.Domain.Group;
+using VelvetechTZ.Contract.Domain.Student;
+using VelvetechTZ.DAL.Models.Student;
 using VelvetechTZ.DAL.Repository;
-using VelvetechTZ.Domain.Student;
 
 namespace VelvetechTZ.Core.Student
 {
@@ -18,29 +19,29 @@ namespace VelvetechTZ.Core.Student
             this.mapper = mapper;
         }
 
-        public async Task<long> Create(StudentDto student)
+        public async Task<long> Create(StudentContract student)
         {
             var model = mapper.Map<StudentModel>(student);
             return await studentRepository.Insert(model);
         }
 
-        public async Task Update(StudentDto student)
+        public async Task Update(StudentContract student)
         {
             var model = mapper.Map<StudentModel>(student);
             await studentRepository.Update(model);
         }
 
-        public async Task Delete(StudentDto student)
+        public async Task Delete(StudentContract student)
         {
             await studentRepository.DeleteById(student.Id);
         }
 
-        public Task AddToGroup(StudentDto student, GroupDto @group)
+        public Task AddToGroup(StudentContract student, GroupContract @group)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<List<StudentDto>> GetFiltered(StudentDto filter)
+        public Task<List<StudentContract>> GetFiltered(StudentContract filter)
         {
             throw new System.NotImplementedException();
         }

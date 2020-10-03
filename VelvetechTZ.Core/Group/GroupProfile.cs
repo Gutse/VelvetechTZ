@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using VelvetechTZ.Domain.Group;
+using VelvetechTZ.Contract.Domain.Group;
+using VelvetechTZ.DAL.Models.Group;
 
 namespace VelvetechTZ.Core.Group
 {
@@ -7,7 +8,7 @@ namespace VelvetechTZ.Core.Group
     {
         public GroupProfile()
         {
-            CreateMap<GroupModel, GroupDto>().ReverseMap();
+            CreateMap<GroupModel, GroupContract>().ReverseMap();
         }
     }
 }

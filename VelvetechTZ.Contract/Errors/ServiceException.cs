@@ -1,6 +1,6 @@
 using System;
 
-namespace VelvetechTZ.Domain.Errors
+namespace VelvetechTZ.Contract.Errors
 {
     public class ServiceException : Exception
     {

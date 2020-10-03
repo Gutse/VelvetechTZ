@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using VelvetechTZ.Domain.EFRelated;
-using VelvetechTZ.Domain.Student;
+using VelvetechTZ.DAL.Models.StudentGroupRelation;
 
-namespace VelvetechTZ.Domain.Group
+namespace VelvetechTZ.DAL.Models.Group
 {
     public class GroupModel: BaseModel.BaseModel
     {

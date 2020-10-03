@@ -1,50 +1,45 @@
 using System;
 using System.Threading.Tasks;
+using VelvetechTZ.Contract.Errors;
 using VelvetechTZ.Core.Password;
 using VelvetechTZ.Core.User;
-using VelvetechTZ.Core.UserIdentity;
 using VelvetechTZ.Core.UserToken;
-using VelvetechTZ.Domain.Errors;
-using VelvetechTZ.Domain.User;
-using VelvetechTZ.Domain.UserIdentity;
-using VelvetechTZ.Domain.UserToken;
+using VelvetechTZ.DAL.Models.User;
+using VelvetechTZ.DAL.Models.UserToken;
 
 namespace VelvetechTZ.Core.Authentication
 {
     public class AuthenticationService : IAuthenticationService
     {
         private readonly IJwtTokenIssuer jwtTokenIssuer;
-        private readonly IUserIdentityService userIdentityService;
         private readonly IUserService userService;
         private readonly IUserTokenService userTokenService;
         private readonly IPasswordService passwordService;
 
         public AuthenticationService
             (IJwtTokenIssuer jwtTokenIssuer,
-            IUserIdentityService userIdentityService,
             IUserService userService,
             IUserTokenService userTokenService,
             IPasswordService passwordService)
         {
             this.jwtTokenIssuer = jwtTokenIssuer;
-            this.userIdentityService = userIdentityService;
             this.userService = userService;
             this.userTokenService = userTokenService;
             this.passwordService = passwordService;
         }
 
-        public async Task<(string Token, DateTime ExpirationTime)> SignIn(long userIdentityId, string password)
+        public async Task<(string Token, DateTime ExpirationTime)> SignIn(long userId, string password)
         {
-            var userIdentity = await userIdentityService.Get(userIdentityId);
-            if (userIdentity == null)
+            var user = await userService.Get(userId);
+            if (user == null)
                 throw new ServiceException(AppErrors.EntityDoesNotExists);
 
-            if (!passwordService.VerifyHashedPassword(userIdentity.Identity,userIdentity.Salt, password))
+            if (!passwordService.VerifyHashedPassword(user.Password, user.Salt, password))
                 throw new ServiceException(AppErrors.BadLoginError);
 
-            var (token, expirationTime) = jwtTokenIssuer.IssueToken(userIdentity.Id, userIdentity.UserId);
+            var (token, expirationTime) = jwtTokenIssuer.IssueToken(user.Id);
 
-            await userTokenService.Create(new UserTokenModel { Expiration = expirationTime, Token = token, UserIdentityId = userIdentity.Id });
+            await userTokenService.Create(new UserTokenModel { Expiration = expirationTime, Token = token, UserIdentityId = user.Id });
 
             return (token, expirationTime);
         }
@@ -55,34 +50,19 @@ namespace VelvetechTZ.Core.Authentication
             if (user != null)
                 throw new ServiceException(AppErrors.UserAlreadyExists);
 
-            var newUserContract = new UserModel() { Email = email, Name = name };
-
             var (hash, salt) = passwordService.GetNewPassword(password);
 
-            var newUserId = await userService.Create(newUserContract);
-            var newIdentityId = await userIdentityService.Create(new UserIdentityModel
-            {
-                UserId = newUserId,
-                Salt = salt,
-                Identity = hash
-            });
+            var newUserContract = new UserModel { Email = email, Name = name, Password = hash, Salt = salt };
 
-            return newIdentityId;
+            return await userService.Create(newUserContract);
         }
 
         public Task SignOut(string token)
         {
-            //await userTokenService.DeleteByToken(token);
-            throw new NotImplementedException();
-        }
-
-        public Task SignOutAll(string token)
-        {
             if (token == null)
                 throw new ServiceException(AppErrors.EntityDoesNotExists);
 
-            //await userTokenService.DeleteAllForUser(token);
-            throw new NotImplementedException();
+            return userTokenService.DeleteByToken(token);
         }
     }
 }

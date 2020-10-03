@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using VelvetechTZ.Domain.BaseModel;
+using VelvetechTZ.DAL.Models.BaseModel;
 
 namespace VelvetechTZ.DAL.Repository
 {

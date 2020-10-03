@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using VelvetechTZ.Core.Group;
+using VelvetechTZ.Contract.Domain.Group;
+using VelvetechTZ.Contract.Domain.Student;
 
 namespace VelvetechTZ.Core.Student
 {
     public interface IStudentService
     {
-        Task<long> Create(StudentDto student);
-        Task Update(StudentDto student);
-        Task Delete(StudentDto student);
-        Task AddToGroup(StudentDto student, GroupDto group);
-        Task<List<StudentDto>> GetFiltered(StudentDto filter);
+        Task<long> Create(StudentContract student);
+        Task Update(StudentContract student);
+        Task Delete(StudentContract student);
+        Task AddToGroup(StudentContract student, GroupContract group);
+        Task<List<StudentContract>> GetFiltered(StudentContract filter);
     }
 }

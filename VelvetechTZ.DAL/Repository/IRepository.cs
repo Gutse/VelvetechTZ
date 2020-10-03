@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using VelvetechTZ.Domain.BaseModel;
+using VelvetechTZ.DAL.Models.BaseModel;
 
 namespace VelvetechTZ.DAL.Repository
 {
