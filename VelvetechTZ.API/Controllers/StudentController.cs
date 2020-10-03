@@ -21,6 +21,13 @@ namespace VelvetechTZ.API.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> Get(BaseGetByIdRequest request)
+        {
+            var student = await studentService.Get(request.Id);
+            return Ok(new BaseContractResponse<StudentContract> { Result = student });
+        }
+
+        [HttpPost]
         public async Task<IActionResult> GetFiltered(BaseFilterRequest<StudentContract> request)
         {
             var students = await studentService.GetFiltered(request.Filter);

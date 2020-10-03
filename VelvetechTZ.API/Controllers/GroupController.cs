@@ -21,6 +21,13 @@ namespace VelvetechTZ.API.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> Get(BaseGetByIdRequest request)
+        {
+            var group = await groupService.Get(request.Id);
+            return Ok(new BaseContractResponse<GroupContract> { Result = group });
+        }
+
+        [HttpPost]
         public async Task<IActionResult> GetFiltered(BaseFilterRequest<GroupContract> filter)
         {
             var groups = await groupService.GetFiltered(filter.Filter);

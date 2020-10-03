@@ -18,6 +18,12 @@ namespace VelvetechTZ.Core.Group
             this.mapper = mapper;
         }
 
+        public async Task<GroupContract> Get(long id)
+        {
+            var entity = await groupRepository.GetById(id);
+            return mapper.Map<GroupContract>(entity);
+        }
+
         public async Task<long> Create(GroupContract group)
         {
             var model = mapper.Map<GroupModel>(group);
@@ -30,9 +36,9 @@ namespace VelvetechTZ.Core.Group
             await groupRepository.Update(model);
         }
 
-        public async Task Delete(long groupId)
+        public async Task Delete(long id)
         {
-            await groupRepository.DeleteById(groupId);
+            await groupRepository.DeleteById(id);
         }
 
         public Task AddStudent(long groupId, long studentId)

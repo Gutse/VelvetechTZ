@@ -18,6 +18,12 @@ namespace VelvetechTZ.Core.Student
             this.mapper = mapper;
         }
 
+        public async Task<StudentContract> Get(long id)
+        {
+            var entity = await studentRepository.GetById(id);
+            return mapper.Map<StudentContract>(entity);
+        }
+
         public async Task<long> Create(StudentContract student)
         {
             var model = mapper.Map<StudentModel>(student);

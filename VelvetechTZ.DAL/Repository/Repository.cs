@@ -47,6 +47,7 @@ namespace VelvetechTZ.DAL.Repository
         {
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
+            entities.Update(model);
             context.SaveChanges();
             return Task.CompletedTask;
         }
