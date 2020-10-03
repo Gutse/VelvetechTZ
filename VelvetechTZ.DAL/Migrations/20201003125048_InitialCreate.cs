@@ -22,7 +22,7 @@ namespace VelvetechTZ.DAL.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Gender = table.Column<int>(nullable: false),
+                    Gender = table.Column<int>(nullable: true),
                     Family = table.Column<string>(maxLength: 40, nullable: false),
                     Name = table.Column<string>(maxLength: 40, nullable: false),
                     SureName = table.Column<string>(maxLength: 60, nullable: false),
