@@ -9,6 +9,8 @@ namespace VelvetechTZ.Core.Group
         public GroupProfile()
         {
             CreateMap<GroupModel, GroupContract>().ReverseMap();
+            CreateMap<GroupCreateRequest, GroupContract>().ReverseMap();
+            CreateMap<GroupUpdateRequest, GroupContract>().ReverseMap();
         }
     }
 }

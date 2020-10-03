@@ -17,6 +17,8 @@ namespace VelvetechTZ.DAL.Repository
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<StudentModel>().HasIndex(nameof(StudentModel.StudentId)).IsUnique(true);
+
             /*Many-to-many relationships without an entity class to represent the join table are not yet supported 
              * https://docs.microsoft.com/ru-ru/ef/core/modeling/relationships?tabs=fluent-api%2Cfluent-api-simple-key%2Csimple-key
              */

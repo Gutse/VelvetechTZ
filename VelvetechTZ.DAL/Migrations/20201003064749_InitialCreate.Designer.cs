@@ -9,7 +9,7 @@ using VelvetechTZ.DAL.Repository;
 namespace VelvetechTZ.DAL.Migrations
 {
     [DbContext(typeof(DockerDbContext))]
-    [Migration("20201002194755_InitialCreate")]
+    [Migration("20201003064749_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,7 +20,62 @@ namespace VelvetechTZ.DAL.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("VelvetechTZ.Domain.EFRelated.StudentGroup", b =>
+            modelBuilder.Entity("VelvetechTZ.DAL.Models.Group.GroupModel", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(25)")
+                        .HasMaxLength(25);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("groups");
+                });
+
+            modelBuilder.Entity("VelvetechTZ.DAL.Models.Student.StudentModel", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Family")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(40)")
+                        .HasMaxLength(40);
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(40)")
+                        .HasMaxLength(40);
+
+                    b.Property<string>("StudentId")
+                        .HasColumnType("nvarchar(16)")
+                        .HasMaxLength(16);
+
+                    b.Property<string>("SureName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(60)")
+                        .HasMaxLength(60);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentId")
+                        .IsUnique()
+                        .HasFilter("[StudentId] IS NOT NULL");
+
+                    b.ToTable("students");
+                });
+
+            modelBuilder.Entity("VelvetechTZ.DAL.Models.StudentGroupRelation.StudentGroup", b =>
                 {
                     b.Property<long>("GroupId")
                         .HasColumnType("bigint");
@@ -35,57 +90,15 @@ namespace VelvetechTZ.DAL.Migrations
                     b.ToTable("StudentGroup");
                 });
 
-            modelBuilder.Entity("VelvetechTZ.Domain.Group.GroupModel", b =>
+            modelBuilder.Entity("VelvetechTZ.DAL.Models.StudentGroupRelation.StudentGroup", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("groups");
-                });
-
-            modelBuilder.Entity("VelvetechTZ.Domain.Student.StudentModel", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Family")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Gender")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StudentId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SureName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("students");
-                });
-
-            modelBuilder.Entity("VelvetechTZ.Domain.EFRelated.StudentGroup", b =>
-                {
-                    b.HasOne("VelvetechTZ.Domain.Group.GroupModel", "Group")
+                    b.HasOne("VelvetechTZ.DAL.Models.Group.GroupModel", "Group")
                         .WithMany("Students")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("VelvetechTZ.Domain.Student.StudentModel", "Student")
+                    b.HasOne("VelvetechTZ.DAL.Models.Student.StudentModel", "Student")
                         .WithMany("Groups")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)

@@ -12,7 +12,7 @@ namespace VelvetechTZ.DAL.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(maxLength: 25, nullable: false)
                 },
                 constraints: table => table.PrimaryKey("PK_groups", x => x.Id));
 
@@ -23,10 +23,10 @@ namespace VelvetechTZ.DAL.Migrations
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Gender = table.Column<int>(nullable: false),
-                    Family = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true),
-                    SureName = table.Column<string>(nullable: true),
-                    StudentId = table.Column<string>(nullable: true)
+                    Family = table.Column<string>(maxLength: 40, nullable: false),
+                    Name = table.Column<string>(maxLength: 40, nullable: false),
+                    SureName = table.Column<string>(maxLength: 60, nullable: false),
+                    StudentId = table.Column<string>(maxLength: 16, nullable: true)
                 },
                 constraints: table => table.PrimaryKey("PK_students", x => x.Id));
 
@@ -58,6 +58,13 @@ namespace VelvetechTZ.DAL.Migrations
                 name: "IX_StudentGroup_StudentId",
                 table: "StudentGroup",
                 column: "StudentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_students_StudentId",
+                table: "students",
+                column: "StudentId",
+                unique: true,
+                filter: "[StudentId] IS NOT NULL");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

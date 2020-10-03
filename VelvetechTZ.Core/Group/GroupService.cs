@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using VelvetechTZ.Contract.Domain.Group;
-using VelvetechTZ.Contract.Domain.Student;
 using VelvetechTZ.DAL.Models.Group;
 using VelvetechTZ.DAL.Repository;
 
@@ -31,17 +30,22 @@ namespace VelvetechTZ.Core.Group
             await groupRepository.Update(model);
         }
 
-        public async Task Delete(GroupContract group)
+        public async Task Delete(long groupId)
         {
-            await groupRepository.DeleteById(group.Id);
+            await groupRepository.DeleteById(groupId);
         }
 
-        public Task AddStudent(GroupContract group, StudentContract student)
+        public Task AddStudent(long groupId, long studentId)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<List<GroupContract>> GetFiltered(GroupContract filter)
+        public Task RemoveStudent(long groupId, long studentId)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<List<GroupContract>> GetFiltered(GroupContract? filter)
         {
             throw new System.NotImplementedException();
         }

@@ -49,5 +49,19 @@ namespace VelvetechTZ.API.Controllers
             await groupService.Delete(request.Id);
             return Ok();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> AddStudent([FromBody] GroupAddStudentRequest request)
+        {
+            await groupService.AddStudent(request.GroupId, request.StudentId);
+            return Ok();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveStudent([FromBody] GroupRemoveStudentRequest request)
+        {
+            await groupService.RemoveStudent(request.GroupId, request.StudentId);
+            return Ok();
+        }
     }
 }
