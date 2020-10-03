@@ -7,8 +7,8 @@ namespace VelvetechTZ.DAL.Models.Group
     public class GroupModel: BaseModel.BaseModel
     {
         [Required]
-        [StringLength(25)]
         [MinLength(1)]
+        [StringLength(25)]
         public virtual string? Name { get; set; }
 
         public virtual List<StudentGroup>? Students { get; set; }

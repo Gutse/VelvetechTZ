@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using VelvetechTZ.Contract.Enums;
+﻿using VelvetechTZ.Contract.Enums;
 
 namespace VelvetechTZ.Contract.Domain.Student
 {
-    public class StudentContract
+    public class StudentUpdateRequest
     {
         public virtual long Id { get; set; }
         public virtual Gender Gender { get; set; }
@@ -11,6 +10,5 @@ namespace VelvetechTZ.Contract.Domain.Student
         public virtual string? Name { get; set; }
         public virtual string? SureName { get; set; }
         public virtual string? StudentId { get; set; }
-        public virtual List<StudentContract>? Groups { get; set; }
     }
 }
