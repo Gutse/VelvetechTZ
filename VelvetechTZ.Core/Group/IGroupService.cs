@@ -9,8 +9,9 @@ namespace VelvetechTZ.Core.Group
     {
         Task<long> Create(GroupContract group);
         Task Update(GroupContract group);
-        Task Delete(GroupContract group);
+        Task Delete(long id);
         Task AddStudent(GroupContract group, StudentContract student);
-        Task<List<GroupContract>> GetFiltered(GroupContract filter);
+        Task RemoveStudent(GroupContract group, StudentContract student);
+        Task<List<GroupContract>> GetFiltered(GroupContract? filter);
     }
 }

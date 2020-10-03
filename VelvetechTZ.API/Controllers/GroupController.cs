@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using VelvetechTZ.Contract.Common;
 using VelvetechTZ.Contract.Domain.Group;
 using VelvetechTZ.Core.Group;
 
@@ -8,41 +9,44 @@ namespace VelvetechTZ.API.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    //[AllowAnonymous] //TODO just for testing, dont forget remove 
     public class GroupController : ControllerBase
     {
         private readonly IGroupService groupService;
+        private readonly IMapper mapper;
 
-        public GroupController(IGroupService groupService)
+        public GroupController(IGroupService groupService, IMapper mapper)
         {
             this.groupService = groupService;
+            this.mapper = mapper;
         }
 
         [HttpPost]
-        public async Task<IActionResult> GetFiltered(GroupContract filter)
+        public async Task<IActionResult> GetFiltered(BaseFilterRequest<GroupContract> filter)
         {
-            var groups = await groupService.GetFiltered(filter);
-            return Ok(groups);
+            var groups = await groupService.GetFiltered(filter.Filter);
+            return Ok(new BaseCollectionResponse<GroupContract> { Result = groups });
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] GroupContract group)
+        public async Task<IActionResult> Create([FromBody] GroupCreateRequest request)
         {
-            var id = await groupService.Create(group);
-            return Ok(id);
+            var contract = mapper.Map<GroupContract>(request);
+            var id = await groupService.Create(contract);
+            return Ok(new BaseIdResponse { Id = id });
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update([FromBody] GroupContract group)
+        public async Task<IActionResult> Update([FromBody] GroupUpdateRequest request)
         {
-            await groupService.Update(group);
+            var contract = mapper.Map<GroupContract>(request);
+            await groupService.Update(contract);
             return Ok();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete([FromBody] GroupContract group)
+        public async Task<IActionResult> Delete([FromBody] BaseDeleteRequest request)
         {
-            await groupService.Delete(group);
+            await groupService.Delete(request.Id);
             return Ok();
         }
     }
