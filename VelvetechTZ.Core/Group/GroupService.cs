@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using VelvetechTZ.Contract.Domain.Group;
 using VelvetechTZ.Contract.Errors;
 using VelvetechTZ.DAL.Models.Group;
@@ -51,7 +49,7 @@ namespace VelvetechTZ.Core.Group
             if (group == null)
                 throw new ServiceException(AppErrors.EntityDoesNotExists);
 
-            group.Students.Add(new StudentGroup {GroupId = groupId, StudentId = studentId});
+            group.Students.Add(new DAL.Models.StudentGroupRelation.StudentGroup {GroupId = groupId, StudentId = studentId});
             await groupRepository.Update(group);
         }
 

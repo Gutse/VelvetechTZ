@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using System.Text.Json;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authorization;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 using VelvetechTZ.Core.Authentication;
 using VelvetechTZ.Core.Core;
 
@@ -51,7 +53,7 @@ namespace VelvetechTZ.API
             {
                 options.Filters.Add(new AuthorizeFilter(defaultPolicy));
                 //options.Filters.Add(new PerfomanceFilter(Log.Logger));
-            });
+            }).AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
             services.AddSwaggerGen(c =>
             {
@@ -74,7 +76,7 @@ namespace VelvetechTZ.API
                     options.SecurityTokenValidators.Clear();
                     options.SecurityTokenValidators.Add(new CustomTokenValidator(AutofacContainer));
                     options.RequireHttpsMetadata = false;
-                    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                    options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = true,
                         ValidateAudience = true,
