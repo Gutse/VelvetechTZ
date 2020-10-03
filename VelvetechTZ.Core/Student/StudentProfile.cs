@@ -9,6 +9,8 @@ namespace VelvetechTZ.Core.Student
         public StudentProfile()
         {
             CreateMap<StudentModel, StudentContract>().ReverseMap();
+            CreateMap<StudentCreateRequest, StudentContract>().ReverseMap();
+            CreateMap<StudentUpdateRequest, StudentContract>().ReverseMap();
         }
     }
 }
