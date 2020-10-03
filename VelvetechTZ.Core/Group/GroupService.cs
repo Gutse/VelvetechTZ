@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.Extensions.DependencyInjection;
 using VelvetechTZ.Contract.Domain.Group;
 using VelvetechTZ.Contract.Errors;
 using VelvetechTZ.DAL.Models.Group;
@@ -53,9 +55,19 @@ namespace VelvetechTZ.Core.Group
             await groupRepository.Update(group);
         }
 
-        public Task RemoveStudent(long groupId, long studentId)
+        public async Task RemoveStudent(long groupId, long studentId)
         {
-            throw new System.NotImplementedException();
+            var group = await groupRepository.GetById(groupId);
+            if (group == null)
+                throw new ServiceException(AppErrors.EntityDoesNotExists);
+
+            var student = group.Students.FirstOrDefault(s => s.StudentId == studentId);
+
+            if (student == null)
+                throw new ServiceException(AppErrors.EntityDoesNotExists);
+
+            group.Students.Remove(student);
+            await groupRepository.Update(group);
         }
 
         public async Task<List<GroupContract>> GetFiltered(GroupContract? filter)
