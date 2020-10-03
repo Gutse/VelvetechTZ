@@ -4,7 +4,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using VelvetechTZ.Contract.Domain.Group;
+using VelvetechTZ.Contract.Errors;
 using VelvetechTZ.DAL.Models.Group;
+using VelvetechTZ.DAL.Models.StudentGroupRelation;
 using VelvetechTZ.DAL.Repository;
 
 namespace VelvetechTZ.Core.Group
@@ -43,9 +45,14 @@ namespace VelvetechTZ.Core.Group
             await groupRepository.DeleteById(id);
         }
 
-        public Task AddStudent(long groupId, long studentId)
+        public async Task AddStudent(long groupId, long studentId)
         {
-            throw new System.NotImplementedException();
+            var group = await groupRepository.GetById(groupId);
+            if (group == null)
+                throw new ServiceException(AppErrors.EntityDoesNotExists);
+
+            group.Students.Add(new StudentGroup {GroupId = groupId, StudentId = studentId});
+            await groupRepository.Update(group);
         }
 
         public Task RemoveStudent(long groupId, long studentId)

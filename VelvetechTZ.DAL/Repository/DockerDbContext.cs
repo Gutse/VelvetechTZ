@@ -12,7 +12,7 @@ namespace VelvetechTZ.DAL.Repository
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=localhost,5434;Database=velvetech;User Id=sa;Password=Qwerty@18;");
+            optionsBuilder.UseLazyLoadingProxies().UseSqlServer("Server=localhost,5434;Database=velvetech;User Id=sa;Password=Qwerty@18;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

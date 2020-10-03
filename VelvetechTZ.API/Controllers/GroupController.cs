@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VelvetechTZ.Contract.Common;
 using VelvetechTZ.Contract.Domain.Group;
@@ -10,7 +9,6 @@ namespace VelvetechTZ.API.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [AllowAnonymous] //TODO remove on release
     public class GroupController : ControllerBase
     {
         private readonly IGroupService groupService;

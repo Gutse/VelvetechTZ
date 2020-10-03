@@ -27,6 +27,6 @@ namespace VelvetechTZ.DAL.Models.Student
         [StringLength(16)]
         public virtual string? StudentId { get; set; }
 
-        public virtual List<StudentGroup>? Groups { get; set; }
+        public virtual List<StudentGroup> Groups { get; set; } = new List<StudentGroup>();
     }
 }
