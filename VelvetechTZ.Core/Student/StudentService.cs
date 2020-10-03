@@ -62,6 +62,9 @@ namespace VelvetechTZ.Core.Student
                 if (!string.IsNullOrWhiteSpace(filter?.Family))
                     result = result && (model.Name?.Contains(filter.Family) ?? false);
 
+                if (!string.IsNullOrWhiteSpace(filter?.StudentId))
+                    result = result && (model.StudentId?.Contains(filter.StudentId) ?? false);
+
                 return result;
             });
 
