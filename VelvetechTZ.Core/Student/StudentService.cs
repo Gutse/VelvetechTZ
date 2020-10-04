@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using FluentValidation;
 using VelvetechTZ.Contract.Domain.Student;
 using VelvetechTZ.DAL.Models.Student;
 using VelvetechTZ.DAL.Repository;
@@ -11,11 +12,13 @@ namespace VelvetechTZ.Core.Student
     {
         private readonly IRepository<StudentModel> studentRepository;
         private readonly IMapper mapper;
+        private readonly StudentContractValidator studentContractValidator;
 
-        public StudentService(IRepository<StudentModel> studentRepository, IMapper mapper)
+        public StudentService(IRepository<StudentModel> studentRepository, IMapper mapper, StudentContractValidator studentContractValidator)
         {
             this.studentRepository = studentRepository;
             this.mapper = mapper;
+            this.studentContractValidator = studentContractValidator;
         }
 
         public async Task<StudentContract> Get(long id)
@@ -26,12 +29,14 @@ namespace VelvetechTZ.Core.Student
 
         public async Task<long> Create(StudentContract student)
         {
+            await studentContractValidator.ValidateAndThrowAsync(student);
             var model = mapper.Map<StudentModel>(student);
             return await studentRepository.Insert(model);
         }
 
         public async Task Update(StudentContract student)
         {
+            await studentContractValidator.ValidateAndThrowAsync(student);
             var model = mapper.Map<StudentModel>(student);
             await studentRepository.Update(model);
         }

@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.Extensions.DependencyInjection;
+using FluentValidation;
 using VelvetechTZ.Contract.Domain.Group;
 using VelvetechTZ.Contract.Errors;
 using VelvetechTZ.DAL.Models.Group;
-using VelvetechTZ.DAL.Models.StudentGroupRelation;
+using VelvetechTZ.DAL.Models.Student;
 using VelvetechTZ.DAL.Repository;
 
 namespace VelvetechTZ.Core.Group
@@ -14,12 +14,16 @@ namespace VelvetechTZ.Core.Group
     public class GroupService : IGroupService
     {
         private readonly IRepository<GroupModel> groupRepository;
+        private readonly IRepository<StudentModel> studentRepository;
         private readonly IMapper mapper;
+        private readonly GroupContractValidator groupContractValidator;
 
-        public GroupService(IRepository<GroupModel> groupRepository, IMapper mapper)
+        public GroupService(IRepository<GroupModel> groupRepository, IMapper mapper, GroupContractValidator groupContractValidator, IRepository<StudentModel> studentRepository)
         {
             this.groupRepository = groupRepository;
             this.mapper = mapper;
+            this.groupContractValidator = groupContractValidator;
+            this.studentRepository = studentRepository;
         }
 
         public async Task<GroupContract> Get(long id)
@@ -30,12 +34,15 @@ namespace VelvetechTZ.Core.Group
 
         public async Task<long> Create(GroupContract group)
         {
+            await groupContractValidator.ValidateAndThrowAsync(group);
+
             var model = mapper.Map<GroupModel>(group);
             return await groupRepository.Insert(model);
         }
 
         public async Task Update(GroupContract group)
         {
+            await groupContractValidator.ValidateAndThrowAsync(group);
             var model = mapper.Map<GroupModel>(group);
             await groupRepository.Update(model);
         }
@@ -49,6 +56,10 @@ namespace VelvetechTZ.Core.Group
         {
             var group = await groupRepository.GetById(groupId);
             if (group == null)
+                throw new ServiceException(AppErrors.EntityDoesNotExists);
+
+            var student = await studentRepository.GetById(studentId);
+            if (student == null)
                 throw new ServiceException(AppErrors.EntityDoesNotExists);
 
             group.Students.Add(new DAL.Models.StudentGroupRelation.StudentGroup {GroupId = groupId, StudentId = studentId});

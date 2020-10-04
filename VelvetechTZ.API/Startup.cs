@@ -50,8 +50,8 @@ namespace VelvetechTZ.API
 
             services.AddControllers(options =>
             {
+                options.Filters.Add(new MainExceptionFilter());
                 options.Filters.Add(new AuthorizeFilter(defaultPolicy));
-                //options.Filters.Add(new PerfomanceFilter(Log.Logger));
             }).AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
             services.AddSwaggerGen(c =>

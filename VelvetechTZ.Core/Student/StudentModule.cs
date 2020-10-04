@@ -7,6 +7,7 @@ namespace VelvetechTZ.Core.Student
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<StudentService>().As<IStudentService>();
+            builder.RegisterType<StudentContractValidator>().AsSelf();
         }
     }
 }

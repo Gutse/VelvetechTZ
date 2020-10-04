@@ -7,6 +7,7 @@ namespace VelvetechTZ.Core.Group
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<GroupService>().As<IGroupService>();
+            builder.RegisterType<GroupContractValidator>().AsSelf();
         }
     }
 }
